@@ -1,32 +1,31 @@
 import { Document, model, Schema } from "mongoose";
 
 enum BlacklistKind {
-    jti = "jti",
-    refresh = "refresh",
-    token = "token"
+  jti = "jti",
+  refresh = "refresh",
+  token = "token",
 }
 
 const BlacklistSchema = new Schema(
-    {
-        object: {
-            type: String,
-            require: [true, "Please provide an object"],
-            unique: true,
-        },
-        // try to use the BlacklistKind to test if it works
-        kind: {
-            type: String,
-            enum: ["jti", "refresh", "token"],
-            default: "jti",
-            required: [true, "Please provide a kind"],
-        },
+  {
+    object: {
+      type: String,
+      required: [true, "Please provide an object"],
+      unique: true,
     },
-    { timestamps: true }
+    kind: {
+      type: String,
+      enum: ["jti", "refresh", "token"],
+      default: "jti",
+      required: [true, "Please provide a kind"],
+    },
+  },
+  { timestamps: true }
 );
 
 interface BlacklistDocument extends Document {
-    object: string;
-    kind: BlacklistKind;
+  object: string;
+  kind: BlacklistKind;
 }
 
 export default model<BlacklistDocument>("Blacklist", BlacklistSchema);
